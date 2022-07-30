@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# make sure router is running Entware and has an /opt/sbin directory
+# make sure router is running Entware and has an /opt/bin directory
+# also check for "install". If not, try to install install ;-)
 
 echo "tiny basic installer"
 echo "This will install the tiny basic (tinybc) application to /opt/bin"
@@ -38,12 +39,12 @@ machtype=$(/bin/uname -m)
 echo "Reported: " $machtype
 
 if [ $machtype == "armv7l" ]; then
-	echo "Installing tinybc for 32bit armv7l router"
+	echo "Fetching and installing tinybc for 32bit armv7l router"
 	/usr/sbin/curl --retry 3 "https://raw.githubusercontent.com/JGrana01/tinybasic/master/tinybc7l.tar" -o "/tmp/tinybc.tar" && tar xf /tmp/tinybc && /tmp/tinybc/tbinstall
 elif [ $machtype == "aarch64" ]; then
-	echo "Installing tinybc for 64bit aarch64 router"
+	echo "Fetching and installing tinybc for 64bit armv7l router"
 	/usr/sbin/curl --retry 3 "https://raw.githubusercontent.com/JGrana01/tinybasic/master/tinybc64.tar" -o "/tmp/tinybc.tar" && tar xf /tmp/tinybc && /tmp/tinybc/tbinstall
 else
-	echo "Sorry, mtd_check on runs on armv7l or aarch64 class routers"
+	echo "Sorry, tinybc only runs on armv7l or aarch64 class routers"
 fi
 
