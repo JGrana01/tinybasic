@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# make sure router is running Entware and has an /opt/sbin directory
+
+echo "tiny basic installer"
+echo "This will install the tiny basic (tinybc) application to /opt/bin"
+echo "as well as some documents and examples basic programs"
+echo -n "To continue, enter Y "
+read a
+
+if ! [ $a == "Y" -o $a == "y" ]; then
+	echo "ok - exiting"
+	exit
+fi
+echo -n "Checking for Entware"
+if ! [ -f /opt/bin/opkg ]; then
+	echo "Entware not installed"
+	echo "Can't install tiny basic..."
+	exit
+fi
+echo " ok"
+echo -n "Checking for required tools (Linux install)"
+if ! [ -f /opt/bin/install ]; then
+	opkg install coreutils-install
+	if ! [ -f /opt/bin/install ]; then
+		echo "Problem installing install ..."
+		echo "Can't install tiny basic... sorry"
+		exit
+	fi
+fi
+
+
+
+# Check if an armv7l or aarch64 class router
+
+echo "Checking for armv7l or aarch64 class kernel"
+machtype=$(/bin/uname -m)
+echo "Reported: " $machtype
+
+if [ $machtype == "armv7l" ]; then
+	echo "Installing tinybc for 32bit armv7l router"
+	/usr/sbin/curl --retry 3 "https://raw.githubusercontent.com/JGrana01/tinybasic/master/tinybc7l.tar" -o "/tmp/tinybc.tar" && tar xf /tmp/tinybc && /tmp/tinybc/tbinstall
+elif [ $machtype == "aarch64" ]; then
+	echo "Installing tinybc for 64bit aarch64 router"
+	/usr/sbin/curl --retry 3 "https://raw.githubusercontent.com/JGrana01/tinybasic/master/tinybc64.tar" -o "/tmp/tinybc.tar" && tar xf /tmp/tinybc && /tmp/tinybc/tbinstall
+else
+	echo "Sorry, mtd_check on runs on armv7l or aarch64 class routers"
+fi
+

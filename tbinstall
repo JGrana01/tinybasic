@@ -1,0 +1,24 @@
+echo "Installing TinyBasic and various documents"
+if ! [ -d /tmp/man/man1 ]; then
+	mkdir /tmp/man/man1
+fi
+install tinybc /opt/bin
+install tinybc.1.gz /opt/man/man1
+install -d /opt/share/doc/tinybc
+install -m 0644 README /opt/share/doc/tinybc
+install -m 0644 LICENSE /opt/share/doc/tinybc
+install -m 0644 *.bas /opt/share/doc/tinybc
+install -m 0644 tinybctut.txt /opt/share/doc/tinybc
+
+echo "Done."
+echo "To run TinyBasic, enter tinybc at the command prompt:"
+echo "$ tinybc"
+echo "A good place to start once in the interpreter is HELP"
+echo "Remember, Basic likes all caps - it's a Basic thing..."
+echo "There is a tinybc man page if you have installed Entware's man utility"
+echo "In the directory /opt/share/doc/tinybc there are some documents and
+echo "sample Basic programs"
+echo
+echo "Have fun!"
+
+
